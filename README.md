@@ -1,4 +1,4 @@
 ## Car Rental
 
 Simple command line application 
-to manage Car rental databse
+to manage Car rental database
