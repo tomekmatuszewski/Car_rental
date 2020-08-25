@@ -59,6 +59,7 @@ def test_car_item(session, db):
     assert session.query(CarItems)[0].production_year == "2016"
     assert session.query(CarItems)[0].car.brand == "Toyota"
     assert not session.query(CarItems).filter(CarItems.price_per_hour < 100).all()
+    assert len(session.query(Cars)[0].car_item) == 1
 
 
 def test_car_item2(session, db):
