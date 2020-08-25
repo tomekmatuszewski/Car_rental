@@ -1,44 +1,17 @@
 import pytest
-from sqlalchemy import create_engine, func
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
 from models.client import Countries, Cities, Clients
-from models import Base
+from models.tests import create_session, create_db
 
 
-class Database:
-
-    engine = None
-    conn_string = None
-
-    def db_init(self, conn_string):
-        self.engine = create_engine(conn_string, echo=False)
-        Base.metadata.create_all(self.engine)
-
-    @staticmethod
-    def create_objects(db_obj, levels_data):
-        return [db_obj(**level) for level in levels_data]
-
-    def add_obj(self, level, level_data, session):
-        session.add_all(self.create_objects(level, level_data))
-        session.commit()
-
-
-@pytest.fixture(scope="module", name="db")
-def create_db():
-    db = Database()
-    db.db_init("sqlite:///:memory:")
-    return db
-
-
-@pytest.fixture(scope="module", name="session")
-def create_session(db):
-    Session = sessionmaker(bind=db.engine)
-    return Session()
+@pytest.fixture(scope="module")
+def start_fixture():
+    create_session(create_db())
 
 
 def test_country(session, db):
-    COUNTRY_DATA = ({"name": "Poland"}, {"name": "Great Britain"})
-    db.add_obj(Countries, COUNTRY_DATA, session)
+    country_data = ({"name": "Poland"}, {"name": "Great Britain"})
+    db.add_obj(Countries, country_data, session)
     assert session.query(func.count("*")).select_from(Countries).scalar() == 2
     assert session.query(Countries)[0].name == "Poland"
 

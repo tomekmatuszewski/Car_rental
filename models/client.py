@@ -23,7 +23,7 @@ class Cities(Base):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     name = Column(String(128), nullable=False)
-    country_id = Column(INTEGER, ForeignKey("countries.id", ondelete="CASCADE"))
+    country_id = Column(INTEGER, ForeignKey("countries.id", ondelete="CASCADE"), nullable=True)
 
     country = relationship("Countries", back_populates="cities")
     clients = relationship("Clients", back_populates="city")
@@ -42,7 +42,7 @@ class Clients(Base):
     pesel_number = Column(String(8), nullable=True, unique=True)
     address = Column(String(128), nullable=True)
     email = Column(String(128), nullable=True, index=True, unique=True)
-    city_id = Column(INTEGER, ForeignKey("cities.id"))
+    city_id = Column(INTEGER, ForeignKey("cities.id"), nullable=True)
 
     city = relationship("Cities", back_populates="clients")
 
