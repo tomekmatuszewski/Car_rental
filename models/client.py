@@ -23,7 +23,9 @@ class Cities(Base):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     name = Column(String(128), nullable=False)
-    country_id = Column(INTEGER, ForeignKey("countries.id", ondelete="CASCADE"), nullable=True)
+    country_id = Column(
+        INTEGER, ForeignKey("countries.id", ondelete="CASCADE"), nullable=True
+    )
 
     country = relationship("Countries", back_populates="cities")
     clients = relationship("Clients", back_populates="city")
