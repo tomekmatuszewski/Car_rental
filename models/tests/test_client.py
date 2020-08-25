@@ -1,7 +1,8 @@
 import pytest
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from models.client import Countries, Cities, Clients, Base
+from models.client import Countries, Cities, Clients
+from models import Base
 
 
 class Database:
@@ -25,7 +26,7 @@ class Database:
 @pytest.fixture(scope="module", name="db")
 def create_db():
     db = Database()
-    db.db_init('sqlite:///:memory:')
+    db.db_init("sqlite:///:memory:")
     return db
 
 
@@ -43,8 +44,11 @@ def test_country(session, db):
 
 
 def test_city(session, db):
-    CITY_DATA = ({"name": "Warsaw", "country_id": 1}, {"name": "London", "country_id": 2})
-    db.add_obj(Cities, CITY_DATA, session)
+    city_data = (
+        {"name": "Warsaw", "country_id": 1},
+        {"name": "London", "country_id": 2},
+    )
+    db.add_obj(Cities, city_data, session)
     assert session.query(func.count("*")).select_from(Cities).scalar() == 2
     assert session.query(Cities)[0].name == "Warsaw"
     assert session.query(Cities)[0].country.name == "Poland"
@@ -52,22 +56,44 @@ def test_city(session, db):
 
 def test_client(session, db):
     client_data = (
-        {"first_name": "Joe",
-         "last_name": "Doe",
-         "pesel_number": "91020516344",
-         "address": "Churchil street 2, London",
-         "email": "joe.doe@yahoo.com",
-         "city_id": 2},
-        {"first_name": "Jan",
-         "last_name": "Nowak",
-         "pesel_number": "80121089256",
-         "address": "ul. Zygmuntowska 2, 00-222 Warszawa",
-         "email": "jan.nowak@gmail.com",
-         "city_id": 1}
+        {
+            "first_name": "Joe",
+            "last_name": "Doe",
+            "pesel_number": "91020516344",
+            "address": "Churchil street 2, London",
+            "email": "joe.doe@yahoo.com",
+            "city_id": 2,
+        },
+        {
+            "first_name": "Jan",
+            "last_name": "Nowak",
+            "pesel_number": "80121089256",
+            "address": "ul. Zygmuntowska 2, 00-222 Warszawa",
+            "email": "jan.nowak@gmail.com",
+            "city_id": 1,
+        },
     )
     db.add_obj(Clients, client_data, session)
     assert session.query(func.count("*")).select_from(Clients).scalar() == 2
     assert session.query(Clients)[0].pesel_number == "91020516344"
     assert session.query(Clients)[0].full_name == "Joe Doe"
     assert session.query(Clients)[0].city.name == "London"
-    assert session.query(Clients.email).filter_by(id=2).all()[0][0] == "jan.nowak@gmail.com"
+    assert (
+        session.query(Clients.email).filter_by(id=2).all()[0][0]
+        == "jan.nowak@gmail.com"
+    )
+
+
+def test_client2(session, db):
+    client_data = (
+        {
+            "first_name": "Joe",
+            "last_name": "Doe",
+            "pesel_number": "91020516344",
+            "address": "Churchil street 2, London",
+            "email": "joe.doeyahoo.com",
+            "city_id": 2,
+        },
+    )
+    with pytest.raises(AssertionError):
+        db.add_obj(Clients, client_data, session)
