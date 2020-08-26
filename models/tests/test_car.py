@@ -2,6 +2,8 @@ import pytest
 from sqlalchemy import func
 from models.car import CarTypes, Cars, CarItems
 from models.tests import create_db, create_session
+from models.order import Orders
+from models.client import Clients
 
 
 @pytest.fixture(scope="module")
@@ -38,7 +40,7 @@ def test_car_item(session, db):
         {
             "car_id": 1,
             "car_type_id": 2,
-            "price_per_hour": 100.50,
+            "price_per_hour": 22.50,
             "production_year": "2016",
             "engine": "1.6 Turbo",
             "fuel": "petrol",
@@ -47,7 +49,7 @@ def test_car_item(session, db):
         {
             "car_id": 3,
             "car_type_id": 2,
-            "price_per_hour": 150.00,
+            "price_per_hour": 15.00,
             "production_year": "2015",
             "engine": "2.0 TDI",
             "fuel": "diesel",
@@ -58,7 +60,7 @@ def test_car_item(session, db):
     assert session.query(func.count("*")).select_from(CarItems).scalar() == 2
     assert session.query(CarItems)[0].production_year == "2016"
     assert session.query(CarItems)[0].car.brand == "Toyota"
-    assert not session.query(CarItems).filter(CarItems.price_per_hour < 100).all()
+    assert not session.query(CarItems).filter(CarItems.price_per_hour < 10).all()
     assert len(session.query(Cars)[0].car_item) == 1
 
 

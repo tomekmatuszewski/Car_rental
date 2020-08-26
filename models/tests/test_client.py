@@ -1,6 +1,8 @@
 import pytest
 from sqlalchemy import func
 from models.client import Countries, Cities, Clients
+from models.order import Orders
+from models.car import CarItems
 from models.tests import create_session, create_db
 
 
@@ -33,7 +35,7 @@ def test_client(session, db):
             "first_name": "Joe",
             "last_name": "Doe",
             "pesel_number": "91020516344",
-            "address": "Churchil street 2, London",
+            "address": "Churchill street 2, London",
             "email": "joe.doe@yahoo.com",
             "city_id": 2,
         },

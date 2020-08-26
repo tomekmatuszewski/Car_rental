@@ -41,10 +41,11 @@ class CarItems(Base):
     production_year = Column(String(4), nullable=False)
     engine = Column(String(20))
     fuel = Column(String(20), nullable=False)
-    availability = Column(INTEGER, nullable=False)
+    availability = Column(INTEGER, nullable=False, default=1)
 
     car = relationship("Cars", back_populates="car_item")
     car_type = relationship("CarTypes", back_populates="car_item")
+    order = relationship("Orders", back_populates="car_item")
 
     @validates("availability")
     def validate_email(self, key, car_items):

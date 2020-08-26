@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, INTEGER, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from models import Base
 from models.utils import email_validator
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class Countries(Base):
@@ -23,9 +24,7 @@ class Cities(Base):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     name = Column(String(128), nullable=False)
-    country_id = Column(
-        INTEGER, ForeignKey("countries.id", ondelete="CASCADE"), nullable=True
-    )
+    country_id = Column(INTEGER, ForeignKey("countries.id"), nullable=True)
 
     country = relationship("Countries", back_populates="cities")
     clients = relationship("Clients", back_populates="city")
@@ -47,8 +46,9 @@ class Clients(Base):
     city_id = Column(INTEGER, ForeignKey("cities.id"), nullable=True)
 
     city = relationship("Cities", back_populates="clients")
+    orders = relationship("Orders", back_populates="client")
 
-    @property
+    @hybrid_property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
