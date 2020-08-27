@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, INTEGER, ForeignKey
 from sqlalchemy.orm import relationship, validates
-from models import Base
+from car_rental.models import Base
 from car_rental.models.utils import email_validator
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -13,6 +13,10 @@ class Countries(Base):
     name = Column(String(128), nullable=False)
 
     cities = relationship("Cities", back_populates="country")
+
+    @hybrid_property
+    def columns(self):
+        return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
         return f"Country id: {self.id}, name: {self.name}"
@@ -28,6 +32,10 @@ class Cities(Base):
 
     country = relationship("Countries", back_populates="cities")
     clients = relationship("Clients", back_populates="city")
+
+    @hybrid_property
+    def columns(self):
+        return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
         return f"City id: {self.id}, name: {self.name}"
@@ -51,6 +59,10 @@ class Clients(Base):
     @hybrid_property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @hybrid_property
+    def columns(self):
+        return [m.key for m in self.__table__.columns]
 
     @validates("email")
     def validate_email(self, key, clients):

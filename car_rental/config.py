@@ -1,7 +1,9 @@
+import os
+
 class Config:
 
-    CONN_STRING = "sqlite:///:memory:"
-
-
+    SQLALCHEMY_DATABASE_URI = (
+        f"sqlite:///{os.path.dirname(__file__)}/car_rental.db"
+    )
 
 

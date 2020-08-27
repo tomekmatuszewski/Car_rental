@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, INTEGER, TIMESTAMP, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from models import Base
+from car_rental.models import Base
 from datetime import datetime
 
 
@@ -33,7 +33,11 @@ class Orders(Base):
     def price(self):
         if self.order_data_stop:
             order_time = self._order_data_stop - self._order_data_start
-            return (order_time.total_seconds() // 3600) * self.car_item.price_per_hour
+            return (order_time.total_seconds() // (3600*24)) * self.car_item.price_per_day
+
+    @hybrid_property
+    def columns(self):
+        return [m.key for m in self.__table__.columns]
 
     @validates("order_status")
     def validate_status(self, key, value):
@@ -48,6 +52,7 @@ class Orders(Base):
 
     def __repr__(self):
 
-        return f"Order: id {self.id}, client {self.client.full_name}, " \
-               f"data: {self.order_data_start}, rented car: {self.car_item.car.brand} {self.car_item.car.model}"
-
+        return (
+            f"Order: id {self.id}, client {self.client.full_name}, "
+            f"data: {self.order_data_start}, rented car: {self.car_item.car.brand} {self.car_item.car.model}"
+        )

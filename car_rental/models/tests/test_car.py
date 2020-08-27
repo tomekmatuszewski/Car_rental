@@ -1,6 +1,8 @@
 import pytest
 from sqlalchemy import func
 from car_rental.models.car import CarTypes, Cars, CarItems
+from car_rental.models.order import Orders
+from car_rental.models.client import Clients
 from car_rental.models.tests import create_db, create_session
 
 
@@ -38,7 +40,7 @@ def test_car_item(session, db):
         {
             "car_id": 1,
             "car_type_id": 2,
-            "price_per_hour": 22.50,
+            "price_per_day": 22.50,
             "production_year": "2016",
             "engine": "1.6 Turbo",
             "fuel": "petrol",
@@ -47,18 +49,18 @@ def test_car_item(session, db):
         {
             "car_id": 3,
             "car_type_id": 2,
-            "price_per_hour": 15.00,
+            "price_per_day": 15.00,
             "production_year": "2015",
             "engine": "2.0 TDI",
             "fuel": "diesel",
-            "availability": 1,
+            "availability": 0,
         },
     )
     db.add_obj(CarItems, car_item_data, session)
     assert session.query(func.count("*")).select_from(CarItems).scalar() == 2
     assert session.query(CarItems)[0].production_year == "2016"
     assert session.query(CarItems)[0].car.brand == "Toyota"
-    assert not session.query(CarItems).filter(CarItems.price_per_hour < 10).all()
+    assert not session.query(CarItems).filter(CarItems.price_per_day < 10).all()
     assert len(session.query(Cars)[0].car_item) == 1
 
 
@@ -67,7 +69,7 @@ def test_car_item2(session, db):
         {
             "car_id": 1,
             "car_type_id": 2,
-            "price_per_hour": 100.50,
+            "price_per_day": 100.50,
             "production_year": "2016",
             "engine": "1.6 Turbo",
             "fuel": "petrol",

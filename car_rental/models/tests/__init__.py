@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from models import Base
+from car_rental.models import Base
 import pytest
 from sqlalchemy.orm import sessionmaker
 
