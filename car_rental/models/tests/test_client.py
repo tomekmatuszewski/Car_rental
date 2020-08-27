@@ -1,9 +1,7 @@
 import pytest
 from sqlalchemy import func
 from models.client import Countries, Cities, Clients
-from models.order import Orders
-from models.car import CarItems
-from models.tests import create_session, create_db
+from car_rental.models.tests import create_session, create_db
 
 
 @pytest.fixture(scope="module")

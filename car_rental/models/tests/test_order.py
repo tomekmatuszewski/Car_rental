@@ -1,9 +1,9 @@
 import pytest
 from sqlalchemy import func
 from models.client import Clients
-from models.car import CarItems
+from car_rental.models.car import CarItems
 from models.order import Orders
-from models.tests import create_session, create_db
+from car_rental.models.tests import create_session, create_db
 from datetime import datetime
 
 

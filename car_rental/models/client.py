@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, INTEGER, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from models import Base
-from models.utils import email_validator
+from car_rental.models.utils import email_validator
 from sqlalchemy.ext.hybrid import hybrid_property
 
 

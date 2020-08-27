@@ -1,4 +1,4 @@
-from models.utils import *
+from car_rental.models.utils import *
 import pytest
 
 
