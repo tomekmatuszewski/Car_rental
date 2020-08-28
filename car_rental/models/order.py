@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, INTEGER, TIMESTAMP, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from car_rental.models import Base
+from car_rental.control.data_access import Base
 from datetime import datetime
 
 
@@ -33,7 +33,9 @@ class Orders(Base):
     def price(self):
         if self.order_data_stop:
             order_time = self._order_data_stop - self._order_data_start
-            return (order_time.total_seconds() // (3600*24)) * self.car_item.price_per_day
+            return (
+                order_time.total_seconds() // (3600 * 24)
+            ) * self.car_item.price_per_day
 
     @hybrid_property
     def columns(self):

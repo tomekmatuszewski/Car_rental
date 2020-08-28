@@ -3,13 +3,28 @@ from sqlalchemy import func
 from car_rental.models.client import Clients
 from car_rental.models.car import CarItems
 from car_rental.models.order import Orders
-from car_rental.models.tests import create_session, create_db
 from datetime import datetime
+from car_rental.models.tests import TestDbMethods
+from car_rental.control.data_access import DataAccess
 
 
-@pytest.fixture(scope="module")
-def start_fixture():
-    create_session(create_db())
+@pytest.fixture(scope="module", name="dl")
+def connect_db():
+    dl = DataAccess()
+    dl.conn_string = "sqlite:///:memory:"
+    dl.connect()
+    return dl
+
+
+@pytest.fixture(scope="module", name="session")
+def start_session(dl):
+    session = dl.session()
+    return session
+
+
+@pytest.fixture(scope="module", name="db")
+def db_method():
+    return TestDbMethods()
 
 
 def test_order(session, db):

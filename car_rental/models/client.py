@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, INTEGER, ForeignKey
 from sqlalchemy.orm import relationship, validates
-from car_rental.models import Base
+from car_rental.control.data_access import Base
 from car_rental.models.utils import email_validator
 from sqlalchemy.ext.hybrid import hybrid_property
 
