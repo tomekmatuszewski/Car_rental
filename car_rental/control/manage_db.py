@@ -4,6 +4,7 @@ from car_rental.models.client import Countries, Cities, Clients
 from car_rental.models.car import CarTypes, CarItems, Cars
 from car_rental.models.order import Orders
 from car_rental.control.data_access import Base
+from prettytable import PrettyTable
 
 
 class ControlDb:
@@ -18,6 +19,9 @@ class ControlDb:
         "Orders": Orders,
     }
 
+    def get_table(self, table_db):
+        return self.tables[table_db]
+
     @staticmethod
     def create_row(table: Base) -> dict:
         return {
@@ -30,13 +34,28 @@ class ControlDb:
         session.add(table(**data))
         session.commit()
 
-    @staticmethod
-    def update_row(session, table: Base, row: int, column: str, value: str) -> None:
+    def update_row(self, session, tabledb: str, row: int, column: str, value: str) -> None:
+        table = self.tables[tabledb]
         session.query(table).filter(table.id == row).update({column: value})
         session.commit()
 
-    @staticmethod
-    def delete_row(session, table: Base, row: int) -> None:
+    def delete_table_row(self, session, tabledb: Base, row: int) -> None:
+        table = self.tables[tabledb]
         session.query(table).filter(table.id == row).delete()
         session.commit()
 
+    def show_dbtable(self, query, table):
+        ptable = set_table_with_headers(table.columns)
+        for row in query:
+            ptable.add_row(list(self.create_row(row).values()))
+        return ptable
+
+    def search_all_row(self, session, table_db: str):
+        table = self.get_table(table_db)
+        query = session.query(table)
+        return self.show_dbtable(query, table)
+
+    def search_selected_row(self, session, table_db: str, column: str, value: str):
+        table = self.get_table(table_db)
+        query = session.query(table).filter_by(**{column: value})
+        return self.show_dbtable(query, table)

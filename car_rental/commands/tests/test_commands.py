@@ -3,9 +3,7 @@ from typer.testing import CliRunner
 from car_rental.models.car import Cars, CarTypes, CarItems
 from car_rental.models.order import Orders
 from car_rental.models.client import Cities, Countries, Clients
-from car_rental.control.data_access import DataAccess
 from unittest.mock import patch
-from car_rental.commands import commands
 from car_rental.commands.commands import app, session
 
 
@@ -45,3 +43,13 @@ def test_delete_row(rows_count):
 def test_show_table():
     result = runner.invoke(app, ["show-table", "Cars"])
     assert result.exit_code == 0
+
+
+def test_search_in_table1():
+    result = runner.invoke(app, ["search-in-table", "Cars", "brand", "Toyota"])
+    assert result.exit_code == 0
+
+
+def test_search_in_table2():
+    result = runner.invoke(app, ["search-in-table", "Cars", "brand", "Mercedes"])
+    assert "Mercedes" not in result.stdout

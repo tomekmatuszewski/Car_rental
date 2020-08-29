@@ -5,6 +5,7 @@ from car_rental.models.car import Cars, CarTypes, CarItems
 from car_rental.models.order import Orders
 from car_rental.models.client import Cities, Countries, Clients
 
+control_db = ControlDb()
 
 @pytest.fixture(scope="module", name="db")
 def connect_db():
@@ -38,14 +39,14 @@ def test_create_row(session):
 
 
 def test_update_row(session):
-    ControlDb.update_row(session, Cars, 1, "model", "Avensis")
-    ControlDb.update_row(session, Cars, 1, "brand", "Toyota 1")
+    control_db.update_row(session, "Cars", 1, "model", "Avensis")
+    control_db.update_row(session, "Cars", 1, "brand", "Toyota 1")
     assert session.query(Cars)[0].model == "Avensis"
     assert session.query(Cars)[0].brand == "Toyota 1"
 
 
 def test_delete_row(session):
-    ControlDb.add_row(session, "2,Toyota,Avensins", Cars)
-    ControlDb.add_row(session, "3,Pugueot,206", Cars)
-    ControlDb.delete_row(session, Cars, 3)
+    control_db.add_row(session, "2,Toyota,Avensins", Cars)
+    control_db.add_row(session, "3,Pugueot,206", Cars)
+    control_db.delete_table_row(session, "Cars", 3)
     assert session.query(Cars.id).count() == 2

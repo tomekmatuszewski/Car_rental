@@ -1,4 +1,5 @@
 class TestDbMethods:
+
     @staticmethod
     def create_objects(db_obj, levels_data):
         return [db_obj(**level) for level in levels_data]
