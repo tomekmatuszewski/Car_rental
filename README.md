@@ -3,7 +3,8 @@
 Simple command line application 
 to manage Car rental database
 
-####Libraries used:
+Libraries used:
+
      - SQLAlchemy
      - Pytest
      - Typer

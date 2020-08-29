@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship, validates
 from car_rental.control.data_access import Base
 from car_rental.models.utils import email_validator
 from sqlalchemy.ext.hybrid import hybrid_property
+from typing import List
 
 
 class Countries(Base):
@@ -15,7 +16,7 @@ class Countries(Base):
     cities = relationship("Cities", back_populates="country")
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
@@ -34,7 +35,7 @@ class Cities(Base):
     clients = relationship("Clients", back_populates="city")
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
@@ -61,7 +62,7 @@ class Clients(Base):
         return f"{self.first_name} {self.last_name}"
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     @validates("email")

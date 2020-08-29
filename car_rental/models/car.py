@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, INTEGER, FLOAT, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from car_rental.control.data_access import Base
 from sqlalchemy.ext.hybrid import hybrid_property
+from typing import List
 
 
 class CarTypes(Base):
@@ -14,7 +15,7 @@ class CarTypes(Base):
     car_item = relationship("CarItems", back_populates="car_type")
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
@@ -32,7 +33,7 @@ class Cars(Base):
     car_item = relationship("CarItems", back_populates="car")
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     def __repr__(self):
@@ -57,7 +58,7 @@ class CarItems(Base):
     order = relationship("Orders", back_populates="car_item")
 
     @hybrid_property
-    def columns(self):
+    def columns(self) -> List:
         return [m.key for m in self.__table__.columns]
 
     @validates("availability")
