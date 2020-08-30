@@ -46,6 +46,8 @@ class ControlDb:
 
     def show_dbtable(self, query, table):
         ptable = set_table_with_headers(table.columns)
+        if not query.all():
+            return msg_obj_notibdb()
         for row in query:
             ptable.add_row(list(self.create_row(row).values()))
         return ptable
