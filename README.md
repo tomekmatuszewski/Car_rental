@@ -26,11 +26,11 @@ Libraries used:
     
 // to search in table
 
-    $ python app.py seatch-in-table "table_name" "column" "value to search"
+    $ python app.py search-in-table "table_name" "column" "value to search"
     
 // to delete row in table
 
-    $ python app.py seatch-in-table "table_name" "number of row to delete"
+    $ python app.py delete-row "table_name" "number of row to delete"
 
 // to update table
 
