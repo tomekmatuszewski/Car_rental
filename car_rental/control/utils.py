@@ -1,6 +1,6 @@
-from typing import List, Dict
+from typing import Dict, List
+
 from prettytable import PrettyTable
-from car_rental.control.data_access import Base
 
 
 def set_table_with_headers(columns: list) -> PrettyTable:
@@ -14,5 +14,5 @@ def parse_data(data: str, columns: List) -> Dict:
     return {k: v for k, v in zip(columns, lst_data)}
 
 
-def msg_obj_notibdb():
-    return "Searched value not in table"
+def msg_empty_table(table):
+    return f"Searched table {str(table.__table__).capitalize()} is empty"

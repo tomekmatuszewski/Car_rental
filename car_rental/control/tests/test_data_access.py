@@ -1,8 +1,9 @@
 import pytest
+
 from car_rental.control.data_access import DataAccess
-from car_rental.models.car import Cars, CarTypes, CarItems
+from car_rental.models.car import CarItems, Cars, CarTypes
+from car_rental.models.client import Cities, Clients, Countries
 from car_rental.models.order import Orders
-from car_rental.models.client import Cities, Countries, Clients
 
 
 @pytest.fixture(scope="module", name="dl")

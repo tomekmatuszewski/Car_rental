@@ -1,22 +1,24 @@
-from sqlalchemy import Column, String, INTEGER, FLOAT, ForeignKey
-from sqlalchemy.orm import relationship, validates
-from car_rental.control.data_access import Base
-from sqlalchemy.ext.hybrid import hybrid_property
 from typing import List
+
+from sqlalchemy import FLOAT, INTEGER, Column, ForeignKey, String
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship, validates
+
+from car_rental.control.data_access import Base
 
 
 class CarTypes(Base):
 
     __tablename__ = "car_types"
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
+    id = Column(INTEGER, primary_key=True)
     type_name = Column(String(128), nullable=False)
 
     car_item = relationship("CarItems", back_populates="car_type")
 
     @hybrid_property
     def columns(self) -> List:
-        return [m.key for m in self.__table__.columns]
+        return [col.key for col in self.__table__.columns]
 
     def __repr__(self):
         return f"Car Type id: {self.id}, type name: {self.type_name}"
@@ -26,7 +28,7 @@ class Cars(Base):
 
     __tablename__ = "cars"
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
+    id = Column(INTEGER, primary_key=True)
     brand = Column(String(128), nullable=True, index=True)
     model = Column(String(128), nullable=True)
 
@@ -44,7 +46,7 @@ class CarItems(Base):
 
     __tablename__ = "car_items"
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
+    id = Column(INTEGER, primary_key=True)
     car_id = Column(INTEGER, ForeignKey("cars.id"), nullable=True)
     car_type_id = Column(INTEGER, ForeignKey("car_types.id"), nullable=True)
     price_per_day = Column(FLOAT(precision="6,2"), nullable=True)

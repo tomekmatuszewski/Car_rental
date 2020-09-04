@@ -1,10 +1,11 @@
 from sqlalchemy import inspect
-from car_rental.control.utils import *
-from car_rental.models.client import Countries, Cities, Clients
-from car_rental.models.car import CarTypes, CarItems, Cars
-from car_rental.models.order import Orders
+
 from car_rental.control.data_access import Base
-from prettytable import PrettyTable
+from car_rental.control.utils import (msg_empty_table, parse_data,
+                                      set_table_with_headers)
+from car_rental.models.car import CarItems, Cars, CarTypes
+from car_rental.models.client import Cities, Clients, Countries
+from car_rental.models.order import Orders
 
 
 class ControlDb:
@@ -45,12 +46,12 @@ class ControlDb:
         session.commit()
 
     def show_dbtable(self, query, table):
-        ptable = set_table_with_headers(table.columns)
+        pretty_table = set_table_with_headers(table.columns)
         if not query.all():
-            return msg_obj_notibdb()
+            return msg_empty_table(table)
         for row in query:
-            ptable.add_row(list(self.create_row(row).values()))
-        return ptable
+            pretty_table.add_row(list(self.create_row(row).values()))
+        return pretty_table
 
     def search_all_row(self, session, table_db: str):
         table = self.get_table(table_db)

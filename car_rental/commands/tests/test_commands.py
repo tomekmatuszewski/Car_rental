@@ -1,11 +1,12 @@
+from unittest.mock import patch
+
 import pytest
 from typer.testing import CliRunner
-from car_rental.models.car import Cars, CarTypes, CarItems
-from car_rental.models.order import Orders
-from car_rental.models.client import Cities, Countries, Clients
-from unittest.mock import patch
-from car_rental.commands.commands import app, session
 
+from car_rental.commands.commands import app, session
+from car_rental.models.car import CarItems, Cars, CarTypes
+from car_rental.models.client import Cities, Clients, Countries
+from car_rental.models.order import Orders
 
 runner = CliRunner()
 

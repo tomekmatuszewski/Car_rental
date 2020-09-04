@@ -8,8 +8,11 @@ Libraries used:
      - SQLAlchemy
      - Pytest
      - Typer
-     - Black
      - PrettyTable
+     
+Table structure - > Clients, Cities, Countries
+                    Car_Types, Cars, CarItems
+                    Orders                 
      
 // to run application
 

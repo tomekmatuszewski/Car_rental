@@ -1,9 +1,11 @@
-from sqlalchemy import Column, String, INTEGER, ForeignKey
+from typing import List
+
+from sqlalchemy import INTEGER, Column, ForeignKey, String
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship, validates
+
 from car_rental.control.data_access import Base
 from car_rental.models.utils import email_validator
-from sqlalchemy.ext.hybrid import hybrid_property
-from typing import List
 
 
 class Countries(Base):

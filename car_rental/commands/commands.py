@@ -1,8 +1,8 @@
 import typer
-from car_rental.control.manage_db import ControlDb
-from car_rental.control.data_access import DataAccess
-from car_rental.commands.utils import *
 
+from car_rental.commands.utils import *
+from car_rental.control.data_access import DataAccess
+from car_rental.control.manage_db import ControlDb
 
 app = typer.Typer()
 dal = DataAccess()

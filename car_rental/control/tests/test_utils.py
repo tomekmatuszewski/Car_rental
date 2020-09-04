@@ -1,4 +1,5 @@
 import pytest
+
 from car_rental.control.utils import parse_data
 
 

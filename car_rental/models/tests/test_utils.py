@@ -1,5 +1,6 @@
-from car_rental.models.utils import *
 import pytest
+
+from car_rental.models.utils import email_validator
 
 
 @pytest.mark.parametrize(

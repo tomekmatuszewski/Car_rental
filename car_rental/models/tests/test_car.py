@@ -1,10 +1,11 @@
 import pytest
 from sqlalchemy import func
-from car_rental.models.car import CarTypes, Cars, CarItems
-from car_rental.models.order import Orders
-from car_rental.models.client import Clients
-from car_rental.models.tests import TestDbMethods
+
 from car_rental.control.data_access import DataAccess
+from car_rental.models.car import CarItems, Cars, CarTypes
+from car_rental.models.client import Clients
+from car_rental.models.order import Orders
+from car_rental.models.tests.utils import TestDbMethods
 
 
 @pytest.fixture(scope="module", name="dl")

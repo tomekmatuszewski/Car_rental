@@ -1,9 +1,11 @@
-from sqlalchemy import Column, String, INTEGER, TIMESTAMP, ForeignKey
-from sqlalchemy.orm import relationship, validates
-from sqlalchemy.ext.hybrid import hybrid_property
-from car_rental.control.data_access import Base
 from datetime import datetime
 from typing import List
+
+from sqlalchemy import INTEGER, TIMESTAMP, Column, ForeignKey, String
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship, validates
+
+from car_rental.control.data_access import Base
 
 
 class Orders(Base):
@@ -22,11 +24,11 @@ class Orders(Base):
     client = relationship("Clients", back_populates="orders")
 
     @hybrid_property
-    def order_data_start(self):
+    def order_data_start(self) -> str:
         return self._order_data_start.strftime("%d-%m-%Y %H:%M")
 
     @hybrid_property
-    def order_data_stop(self):
+    def order_data_stop(self) -> str:
         if self._order_data_stop:
             return self._order_data_stop.strftime("%d-%m-%Y %H:%M")
 
@@ -43,7 +45,7 @@ class Orders(Base):
         return [m.key for m in self.__table__.columns]
 
     @validates("order_status")
-    def validate_status(self, key, value):
+    def validate_status(self, key, value) -> str:
         assert value in ("pending", "finished")
         return value
 
@@ -53,7 +55,7 @@ class Orders(Base):
     def set_order_status(self, status: str) -> None:
         self.order_status = status
 
-    def __repr__(self):
+    def __repr__(self) -> str:
 
         return (
             f"Order: id {self.id}, client {self.client.full_name}, "
