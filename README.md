@@ -16,7 +16,11 @@ Table structure - > Clients, Cities, Countries
      
 // to run application
 
-    $ python app.py
+    $ git clone <repo>
+    $ virtualenv venv
+    $ source venv/bin/activate
+    $ pip install -r requirements.txt
+    $ python app.py  -> to show commands :point_down:
     
 // to get help
 
@@ -41,4 +45,8 @@ Table structure - > Clients, Cities, Countries
     
 // to insert row - row will be inserted at the end of table
 
+
     $ python app.py insert-row "table_name" "all datas divided by comma" 
+
+    $ python app.py insert-row "table_name" "all datas divided by comma" 
+
