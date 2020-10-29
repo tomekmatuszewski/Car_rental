@@ -20,8 +20,10 @@ Table structure - > Clients, Cities, Countries
     $ virtualenv venv
     $ source venv/bin/activate
     $ pip install -r requirements.txt
-    $ python app.py  -> to show commands :point_down:
-    
+    $ python app.py  -> to show commands 
+
+:point_down:
+   
 // to get help
 
     $ python app.py --help
